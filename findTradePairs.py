@@ -12,7 +12,6 @@ def get_markets(f):
     url=base_url+"/exchange/v1/markets"
     response=rs.get(url)
     data=response.json()
-    
     temp_ict_list=[]
     print(type(data))
     for i in data:
