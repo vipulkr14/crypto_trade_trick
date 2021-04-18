@@ -32,29 +32,31 @@ def process_details(f):
     for i in ict_details:
         insert_new_line(f," ")
         c_i=ict_details.get(i)
+        insert_new_line(f,i)
         curr=i.split(intermediate_currency)[0]
-        insert_new_line(f,curr)
-        c_i_bid=float(c_i['bid'])
-        insert_new_line(f,"rate to buy: "+str(c_i_bid))
-        number_of_c=number_of_i/c_i_bid
-        insert_new_line(f,"number: "+str(number_of_c))
-        # print("currency: "+curr+" number: "+str(number_of_c))
-        number_of_c=math.ceil(number_of_c)
-        insert_new_line(f,"rounded off number: "+str(number_of_c))
-        # print("final number of c: "+str(number_of_c))
-        new_number_of_i=number_of_c*c_i_bid*1.001
-        insert_new_line(f,"number of "+intermediate_currency+": "+str(new_number_of_i))
-        new_price_to_buy_i=1.001*new_number_of_i*i_h_bid
-        # print("price to buy i: "+str(new_price_to_buy_i))
-        insert_new_line(f,"price to buy "+intermediate_currency+": "+str(new_price_to_buy_i))
-        c_h=hct_details.get(curr+home_currency)
-        c_h_ask=float(c_h['last_price'])
-        insert_new_line(f,"rate to sell "+curr+": "+str(c_h_ask))
-        price_to_sell_c=0.999*number_of_c*c_h_ask
-        # print("price to sell c: "+str(price_to_sell_c))
-        insert_new_line(f,"price to sell "+curr+": "+str(price_to_sell_c))
-        profit=price_to_sell_c-new_price_to_buy_i
-        insert_new_line(f,"profit: "+str(profit))
+        if not curr=="":
+            insert_new_line(f,curr)
+            c_i_bid=float(c_i['bid'])
+            insert_new_line(f,"rate to buy: "+str(c_i_bid))
+            number_of_c=number_of_i/c_i_bid
+            insert_new_line(f,"number: "+str(number_of_c))
+            # print("currency: "+curr+" number: "+str(number_of_c))
+            number_of_c=math.ceil(number_of_c)
+            insert_new_line(f,"rounded off number: "+str(number_of_c))
+            # print("final number of c: "+str(number_of_c))
+            new_number_of_i=number_of_c*c_i_bid*1.001
+            insert_new_line(f,"number of "+intermediate_currency+": "+str(new_number_of_i))
+            new_price_to_buy_i=1.001*new_number_of_i*i_h_bid
+            # print("price to buy i: "+str(new_price_to_buy_i))
+            insert_new_line(f,"price to buy "+intermediate_currency+": "+str(new_price_to_buy_i))
+            c_h=hct_details.get(curr+home_currency)
+            c_h_ask=float(c_h['ask'])
+            insert_new_line(f,"rate to sell "+curr+": "+str(c_h_ask))
+            price_to_sell_c=0.999*number_of_c*c_h_ask
+            # print("price to sell c: "+str(price_to_sell_c))
+            insert_new_line(f,"price to sell "+curr+": "+str(price_to_sell_c))
+            profit=price_to_sell_c-new_price_to_buy_i
+            insert_new_line(f,"profit: "+str(profit))
 
 def get_ticker(f):
     url=base_url+"/exchange/ticker"
@@ -67,9 +69,9 @@ def get_ticker(f):
         if i['market'] in ict_list:
             ict_details[i['market']]=i
     insert_new_line(f,"hct details: "+str(len(hct_details)))
-    insert_new_line(f,hct_details)
+    # insert_new_line(f,hct_details)
     insert_new_line(f,"ict details: "+str(len(ict_details)))
-    insert_new_line(f,ict_details)
+    # insert_new_line(f,ict_details)
 
 def get_markets(f):
     url=base_url+"/exchange/v1/markets"
@@ -85,11 +87,11 @@ def get_markets(f):
         if intermediate_currency in i:
             temp_ict_list.append(i)
 
-    insert_new_line(f,"currencies with matching pair:")
+    # insert_new_line(f,"currencies with matching pair:")
     for i in temp_ict_list:
         fcurr=i.split(intermediate_currency)[0]
         if fcurr in finalCur_list:
-            insert_new_line(f,fcurr)
+            # insert_new_line(f,fcurr)
             ict_list.append(i)
         if i in intermediate_currency+home_currency:
             hct_list.append(i)
